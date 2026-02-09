@@ -53,6 +53,7 @@ public class AuthController {
         // Generar JWT
         String jwt = jwtUtils.generateJwtToken(authentication);
 
+        //Obtiene roles del usuario.
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
@@ -64,6 +65,7 @@ public class AuthController {
                 true
         );
 
+        //Devuelve un LoginResponse con token, username y roles.
         return ResponseEntity.ok(ApiResponse.success("Login exitoso", loginResponse));
     }
 

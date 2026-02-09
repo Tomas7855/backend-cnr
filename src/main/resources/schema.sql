@@ -1,7 +1,6 @@
--- ============================================================================
 -- Script SQL para Oracle Database
 -- Sistema de Gestión de Expedientes - Centro Nacional de Registros
--- ============================================================================
+
 
 -- Eliminar tabla si existe (para desarrollo)
 BEGIN
@@ -25,18 +24,16 @@ EXCEPTION
 END;
 /
 
--- ============================================================================
 -- Crear Secuencia para autogeneración de IDs
--- ============================================================================
+
 CREATE SEQUENCE SEQ_EXPEDIENTE
     START WITH 1
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
 
--- ============================================================================
 -- Crear Tabla Principal: EXPEDIENTE_CIUDADANO
--- ============================================================================
+
 CREATE TABLE EXPEDIENTE_CIUDADANO (
     -- Campos principales
     id                      NUMBER(19) NOT NULL,
@@ -70,17 +67,16 @@ CREATE TABLE EXPEDIENTE_CIUDADANO (
     CONSTRAINT CHK_ESTADO CHECK (estado_expediente IN ('ACTIVO', 'INACTIVO', 'EN_REVISION', 'ARCHIVADO'))
 );
 
--- ============================================================================
 -- Crear Índices para optimizar consultas
--- ============================================================================
+
 CREATE INDEX IDX_NOMBRE_COMPLETO ON EXPEDIENTE_CIUDADANO(nombre_completo);
 CREATE INDEX IDX_ELIMINADO ON EXPEDIENTE_CIUDADANO(eliminado);
 CREATE INDEX IDX_ESTADO_EXPEDIENTE ON EXPEDIENTE_CIUDADANO(estado_expediente);
 CREATE INDEX IDX_FECHA_CREACION ON EXPEDIENTE_CIUDADANO(fecha_creacion);
 
--- ============================================================================
+
 -- Crear Trigger para autogeneración de ID
--- ============================================================================
+
 CREATE OR REPLACE TRIGGER TRG_EXPEDIENTE_ID
 BEFORE INSERT ON EXPEDIENTE_CIUDADANO
 FOR EACH ROW
@@ -91,9 +87,9 @@ BEGIN
 END;
 /
 
--- ============================================================================
+
 -- Comentarios en la tabla y columnas (Documentación)
--- ============================================================================
+
 COMMENT ON TABLE EXPEDIENTE_CIUDADANO IS 'Tabla principal para gestión de expedientes de ciudadanos';
 
 COMMENT ON COLUMN EXPEDIENTE_CIUDADANO.id IS 'Identificador único autogenerado';
@@ -112,9 +108,9 @@ COMMENT ON COLUMN EXPEDIENTE_CIUDADANO.usuario_eliminacion IS 'Usuario que elimi
 COMMENT ON COLUMN EXPEDIENTE_CIUDADANO.fecha_eliminacion IS 'Fecha y hora de eliminación del registro';
 COMMENT ON COLUMN EXPEDIENTE_CIUDADANO.eliminado IS 'Indica si el registro está eliminado lógicamente (0=No, 1=Sí)';
 
--- ============================================================================
+
 -- Datos de ejemplo para pruebas
--- ============================================================================
+
 INSERT INTO EXPEDIENTE_CIUDADANO (
     id, nombre_completo, dui_documento, direccion, telefono, 
     fecha_nacimiento, estado_expediente, fecha_registro,
@@ -208,9 +204,9 @@ INSERT INTO EXPEDIENTE_CIUDADANO (
 -- Confirmar cambios
 COMMIT;
 
--- ============================================================================
+
 -- Verificar datos insertados
--- ============================================================================
+
 SELECT 
     id,
     nombre_completo,
